@@ -9,36 +9,28 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var numberOfPeople = 2
-    @State private var invoiceCount = ""
-    @State private var percentTip = 2
+    @State private var checkAmount = ""
+    @State private var tipPercentage = 2
     
-    let percents = [10, 15, 20, 25, 0]
+    let tipPercentages = [10, 15, 20, 25, 0]
     
-    var invoiceEnd: Double {
-        let invoiceInt = Double(invoiceCount) ?? 0
-        let newNumberOfPeople = Double(numberOfPeople + 2)
-        let newPercents = Double(percents[percentTip])
+    var totalPerPerson: Double {
+        let orderAmount = Double(checkAmount) ?? 0
+        let peopleCount = Double(numberOfPeople + 2)
+        let tipSelection = Double(tipPercentages[tipPercentage])
         
-        let summ = invoiceInt / newNumberOfPeople
-        let perc = newPercents / 100
-        let itogo = summ * perc
-        /*
-         number of people
-         bill
-         %
-         
-         
-         $1000 / 10people = $100 * 0.10
- 
-         */
-        return itogo
+        let tipValue = orderAmount / 100 * tipSelection
+        let grandTotal = orderAmount + tipValue
+        let amountPerPerson = grandTotal / peopleCount
+        
+        return amountPerPerson
     }
     
     var body: some View {
         NavigationView {
             Form {
                 Section {
-                    TextField("Invoice", text: $invoiceCount)
+                    TextField("Invoice", text: $checkAmount)
                         .keyboardType(.decimalPad)
                     Picker("Number of people", selection: $numberOfPeople) {
                         ForEach( 2..<100 ) { item in
@@ -47,15 +39,15 @@ struct ContentView: View {
                     }
                 }
                 Section(header: Text("Hou much %")) {
-                    Picker("", selection: $percentTip) {
-                        ForEach(0..<percents.count) { item in
-                            Text("\(percents[item])%")
+                    Picker("", selection: $tipPercentage) {
+                        ForEach(0..<tipPercentages.count) { item in
+                            Text("\(tipPercentages[item])%")
                         }
                     }
                     .pickerStyle(SegmentedPickerStyle())
                 }
                 Section {
-                    Text("$\(invoiceEnd, specifier: "%.2f")")
+                    Text("$\(totalPerPerson, specifier: "%.2f")")
                 }
             }
             .navigationBarTitle("WeSplit")
