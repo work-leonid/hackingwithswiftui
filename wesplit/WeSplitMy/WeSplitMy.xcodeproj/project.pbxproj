@@ -11,6 +11,7 @@
 		FB215334262DB80000BE529D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB215333262DB80000BE529D /* ContentView.swift */; };
 		FB215336262DB80100BE529D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB215335262DB80100BE529D /* Assets.xcassets */; };
 		FB215339262DB80100BE529D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB215338262DB80100BE529D /* Preview Assets.xcassets */; };
+		FB215343262DBC0800BE529D /* SegmentedPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB215342262DBC0800BE529D /* SegmentedPicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +21,7 @@
 		FB215335262DB80100BE529D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FB215338262DB80100BE529D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		FB21533A262DB80100BE529D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FB215342262DBC0800BE529D /* SegmentedPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SegmentedPicker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +56,7 @@
 			children = (
 				FB215331262DB80000BE529D /* WeSplitMyApp.swift */,
 				FB215333262DB80000BE529D /* ContentView.swift */,
+				FB215342262DBC0800BE529D /* SegmentedPicker.swift */,
 				FB215335262DB80100BE529D /* Assets.xcassets */,
 				FB21533A262DB80100BE529D /* Info.plist */,
 				FB215337262DB80100BE529D /* Preview Content */,
@@ -138,6 +141,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB215343262DBC0800BE529D /* SegmentedPicker.swift in Sources */,
 				FB215334262DB80000BE529D /* ContentView.swift in Sources */,
 				FB215332262DB80000BE529D /* WeSplitMyApp.swift in Sources */,
 			);
