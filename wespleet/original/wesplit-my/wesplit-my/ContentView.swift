@@ -48,41 +48,26 @@ class SplitViewModel: ObservableObject {
         return result
     }
     
-    var tipPerCheck: String {
-        let totalCheck = Double(checkAmount) ?? 0
-        let tipPercent = Double(tipPercenteges[tipSelection])
-        
-        let tipPerPerson = totalCheck / 100 * tipPercent
-        let result = formatterCurrency.string(from: NSNumber(value: tipPerPerson))!
-        
+    var tipInPercent: Double {
+        let result = checkAmountConverted / 100 * currentTipAmount
+       
+        return result
+    }
+    
+    var tipPercentFormatted: String {
+        let result = formatterCurrency.string(from: NSNumber(value: tipInPercent))!
+       
         return result
     }
     
     var tipPerPerson: String {
-        //        let totalCheck = Double(checkAmount) ?? 0
-        //        let tipPercent = Double(tipPercenteges[tipSelection])
-        
-        //        let tipPerPerson = totalCheck / 100 * tipPercent
-        var perPerson: Double = 0
-        
-        
-        let tipInPercent = checkAmountConverted / 100 * currentTipAmount
         let tipPerPerson = tipInPercent / peopleAmountConverted
-        
-        //        if checkAmountConverted == 0 {
-        //            perPerson = 0
-        //        } else {
-        //            perPerson = currentTipAmount / 100 / peopleAmountConverted
-        //        }
-        
-        
-        
         let result = formatterCurrency.string(from: NSNumber(value: tipPerPerson))!
-        
+
         return result
     }
     
-    
+//    MARK: - Functions
     func incrementPeopleAmount() {
         peopleAmount += 1
     }
@@ -104,32 +89,32 @@ struct ContentView: View {
             Form {
                 
                 if vm.checkAmountConverted > 0 {
-                        Section {
-                            HStack {
-                                Text("Each person pay")
-                                Spacer()
-                                Text("\(vm.totalPerPerson)")
-                                    .font(.title)
-                                    .padding(.vertical)
-                            }
-                            HStack {
-                                VStack(alignment: .leading, spacing: 5) {
-                                    Text("Per check")
-                                        .font(.callout)
-                                        .foregroundColor(.gray)
-                                    Text("\(vm.tipPerCheck)")
-                                }
-                                Spacer()
-                                VStack(alignment: .leading, spacing: 5) {
-                                    Text("Per person")
-                                        .font(.callout)
-                                        .foregroundColor(.gray)
-                                    Text("\(vm.tipPerPerson)")
-                                }
-                                
-                            }
-                            .padding(.vertical)
+                    Section {
+                        HStack {
+                            Text("Each person pay")
+                            Spacer()
+                            Text("\(vm.totalPerPerson)")
+                                .font(.title)
+                                .padding(.vertical)
                         }
+                        HStack {
+                            VStack(alignment: .leading, spacing: 5) {
+                                Text("Per check")
+                                    .font(.callout)
+                                    .foregroundColor(.gray)
+                                Text("\(vm.tipPercentFormatted)")
+                            }
+                            Spacer()
+                            VStack(alignment: .leading, spacing: 5) {
+                                Text("Per person")
+                                    .font(.callout)
+                                    .foregroundColor(.gray)
+                                Text("\(vm.tipPerPerson)")
+                            }
+                            
+                        }
+                        .padding(.vertical)
+                    }
                 }
                 
                 
@@ -137,7 +122,6 @@ struct ContentView: View {
                 Section {
                     
                     HStack {
-                        
                         ZStack(alignment: Alignment(horizontal: .leading, vertical: .center)) {
                             TextField("Check amount", text: $vm.checkAmount)
                                 .keyboardType(.decimalPad)
