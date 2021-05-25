@@ -17,20 +17,20 @@ class SplitViewModel: ObservableObject {
     // MARK: - Local
     var tipPercenteges = [10, 15, 20, 0]
     
-    // MARK: - Converted
+    // MARK: - Converted properties for calculations
     var currentTipAmount: Double {
         return Double(tipPercenteges[tipSelection])
     }
     
-    var checkAmountConverted: Double {
+    var checkAmountDouble: Double {
         return Double(checkAmount) ?? 0
     }
     
-    var peopleAmountConverted: Double {
+    var peopleAmountDouble: Double {
         return Double(peopleAmount)
     }
     
-    // MARK: - Formatter
+    // MARK: - Currency formatter
     var formatterCurrency: NumberFormatter {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
@@ -38,30 +38,27 @@ class SplitViewModel: ObservableObject {
     }
     
     //    MARK: - Total amounts
+    var tipAmountForCheck: Double {
+        return checkAmountDouble / 100 * currentTipAmount
+    }
+
     var totalPerPerson: String {
-        let tipPerPerson = checkAmountConverted / 100 * currentTipAmount
-        let totalOrder = checkAmountConverted + tipPerPerson
-        let perPersonAmount = totalOrder / peopleAmountConverted
-        
+        let totalOrder = checkAmountDouble + tipAmountForCheck
+        let perPersonAmount = totalOrder / peopleAmountDouble
         let result = formatterCurrency.string(from: NSNumber(value: perPersonAmount))!
         
         return result
     }
     
-    var tipInPercent: Double {
-        let result = checkAmountConverted / 100 * currentTipAmount
-       
-        return result
-    }
     
     var tipPercentFormatted: String {
-        let result = formatterCurrency.string(from: NSNumber(value: tipInPercent))!
+        let result = formatterCurrency.string(from: NSNumber(value: tipAmountForCheck))!
        
         return result
     }
     
     var tipPerPerson: String {
-        let tipPerPerson = tipInPercent / peopleAmountConverted
+        let tipPerPerson = tipAmountForCheck / peopleAmountDouble
         let result = formatterCurrency.string(from: NSNumber(value: tipPerPerson))!
 
         return result
@@ -88,7 +85,7 @@ struct ContentView: View {
         NavigationView {
             Form {
                 
-                if vm.checkAmountConverted > 0 {
+                if vm.checkAmountDouble > 0 {
                     Section {
                         HStack {
                             Text("Each person pay")
