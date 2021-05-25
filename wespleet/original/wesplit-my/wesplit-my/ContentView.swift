@@ -104,33 +104,32 @@ struct ContentView: View {
             Form {
                 
                 if vm.checkAmountConverted > 0 {
-                    Section {
-                        HStack {
-                            Text("Each person pay")
-                            Spacer()
-                            Text("\(vm.totalPerPerson)")
-                                .font(.title)
-                                .padding(.vertical)
-                        }
-                        HStack {
-                            VStack(alignment: .leading, spacing: 5) {
-                                Text("Per check")
-                                    .font(.callout)
-                                    .foregroundColor(.gray)
-                                Text("\(vm.tipPerCheck)")
+                        Section {
+                            HStack {
+                                Text("Each person pay")
+                                Spacer()
+                                Text("\(vm.totalPerPerson)")
+                                    .font(.title)
+                                    .padding(.vertical)
                             }
-                            Spacer()
-                            VStack(alignment: .leading, spacing: 5) {
-                                Text("Per person")
-                                    .font(.callout)
-                                    .foregroundColor(.gray)
-                                Text("\(vm.tipPerPerson)")
+                            HStack {
+                                VStack(alignment: .leading, spacing: 5) {
+                                    Text("Per check")
+                                        .font(.callout)
+                                        .foregroundColor(.gray)
+                                    Text("\(vm.tipPerCheck)")
+                                }
+                                Spacer()
+                                VStack(alignment: .leading, spacing: 5) {
+                                    Text("Per person")
+                                        .font(.callout)
+                                        .foregroundColor(.gray)
+                                    Text("\(vm.tipPerPerson)")
+                                }
+                                
                             }
-                            
+                            .padding(.vertical)
                         }
-                        .padding(.vertical)
-                        
-                    }
                 }
                 
                 
