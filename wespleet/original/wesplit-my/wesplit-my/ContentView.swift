@@ -37,12 +37,12 @@ class SplitViewModel: ObservableObject {
         return formatter
     }
     
-//    MARK: - Total amounts
+    //    MARK: - Total amounts
     var totalPerPerson: String {
         let tipPerPerson = checkAmountConverted / 100 * currentTipAmount
         let totalOrder = checkAmountConverted + tipPerPerson
         let perPersonAmount = totalOrder / peopleAmountConverted
-    
+        
         let result = formatterCurrency.string(from: NSNumber(value: perPersonAmount))!
         
         return result
@@ -59,21 +59,21 @@ class SplitViewModel: ObservableObject {
     }
     
     var tipPerPerson: String {
-//        let totalCheck = Double(checkAmount) ?? 0
-//        let tipPercent = Double(tipPercenteges[tipSelection])
+        //        let totalCheck = Double(checkAmount) ?? 0
+        //        let tipPercent = Double(tipPercenteges[tipSelection])
         
-//        let tipPerPerson = totalCheck / 100 * tipPercent
+        //        let tipPerPerson = totalCheck / 100 * tipPercent
         var perPerson: Double = 0
         
         
         let tipInPercent = checkAmountConverted / 100 * currentTipAmount
         let tipPerPerson = tipInPercent / peopleAmountConverted
         
-//        if checkAmountConverted == 0 {
-//            perPerson = 0
-//        } else {
-//            perPerson = currentTipAmount / 100 / peopleAmountConverted
-//        }
+        //        if checkAmountConverted == 0 {
+        //            perPerson = 0
+        //        } else {
+        //            perPerson = currentTipAmount / 100 / peopleAmountConverted
+        //        }
         
         
         
@@ -90,7 +90,7 @@ class SplitViewModel: ObservableObject {
     func decrementPeopleAmount() {
         peopleAmount -= 1
         if peopleAmount < 1 {
-           peopleAmount = 1
+            peopleAmount = 1
         }
     }
 }
@@ -136,22 +136,29 @@ struct ContentView: View {
                 
                 
                 Section {
+                    
+                    HStack {
+                        
                         ZStack(alignment: Alignment(horizontal: .leading, vertical: .center)) {
-                            TextField("Check", text: $vm.checkAmount)
+                            TextField("Check amount", text: $vm.checkAmount)
                                 .keyboardType(.decimalPad)
                                 .padding(.leading)
                             Text("$")
                         }
-                    
-                    Stepper("For \(vm.peopleAmount) person") {
-                        vm.incrementPeopleAmount()
-                    } onDecrement: {
-                        vm.decrementPeopleAmount()
+                        
+                        Stepper(
+                            onIncrement: { vm.incrementPeopleAmount() },
+                            onDecrement: { vm.decrementPeopleAmount() },
+                            label: {
+                                Text("for \(vm.peopleAmount)")
+                                    .font(.callout)
+                            })
+                        
                     }
-
-                    VStack(alignment: .leading) {
                     
+                    VStack(alignment: .leading) {
                         Text("Tip amount")
+                            .font(.callout)
                         Picker("Tip count", selection: $vm.tipSelection) {
                             ForEach(0..<vm.tipPercenteges.count) { index in
                                 Text("\(vm.tipPercenteges[index])%")
@@ -171,11 +178,11 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         
-            ContentView()
-                .previewDevice(PreviewDevice(rawValue: "iPhone SE (2nd generation)"))
-            
-            ContentView()
-                .previewDevice(PreviewDevice(rawValue: "iPhone 11 Pro"))
+        ContentView()
+            .previewDevice(PreviewDevice(rawValue: "iPhone SE (2nd generation)"))
+        
+        ContentView()
+            .previewDevice(PreviewDevice(rawValue: "iPhone 11 Pro"))
         
     }
 }
