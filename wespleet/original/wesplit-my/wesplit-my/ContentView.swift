@@ -103,27 +103,39 @@ struct ContentView: View {
         NavigationView {
             Form {
                 
-                Section(header: Text("Total")) {
-                    HStack {
-                        Text("Each person pay:")
-                        Spacer()
-                        Text("\(vm.totalPerPerson)")
-                    }
-                    HStack {
-                        Text("Tip per check:")
-                        Spacer()
-                        Text("\(vm.tipPerCheck)")
-                    }
-                    HStack {
-                        Text("Tip per person:")
-                        Spacer()
-                        Text("\(vm.tipPerPerson)")
+                if vm.checkAmountConverted > 0 {
+                    Section {
+                        HStack {
+                            Text("Each person pay")
+                            Spacer()
+                            Text("\(vm.totalPerPerson)")
+                                .font(.title)
+                                .padding(.vertical)
+                        }
+                        HStack {
+                            VStack(alignment: .leading, spacing: 5) {
+                                Text("Per check")
+                                    .font(.callout)
+                                    .foregroundColor(.gray)
+                                Text("\(vm.tipPerCheck)")
+                            }
+                            Spacer()
+                            VStack(alignment: .leading, spacing: 5) {
+                                Text("Per person")
+                                    .font(.callout)
+                                    .foregroundColor(.gray)
+                                Text("\(vm.tipPerPerson)")
+                            }
+                            
+                        }
+                        .padding(.vertical)
+                        
                     }
                 }
                 
                 
+                
                 Section {
-                    
                         ZStack(alignment: Alignment(horizontal: .leading, vertical: .center)) {
                             TextField("Check", text: $vm.checkAmount)
                                 .keyboardType(.decimalPad)
@@ -148,6 +160,7 @@ struct ContentView: View {
                         .pickerStyle(SegmentedPickerStyle())
                     }
                 }
+                
                 
             }
             .navigationTitle("WeSplit")
