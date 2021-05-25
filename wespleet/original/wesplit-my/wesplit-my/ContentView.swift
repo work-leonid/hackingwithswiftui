@@ -10,11 +10,22 @@ import SwiftUI
 class SplitViewModel: ObservableObject {
     
     @Published var checkAmount = ""
-    @Published var peopleAmount = ""
     @Published var tipSelection = 2
-    @Published var peopleAmountInt = 1
+    @Published var peopleAmount = 1
     
     var tipPercenteges = [10, 15, 20, 0]
+    
+    var currentTipCount: Double {
+        return Double(tipPercenteges[tipSelection])
+    }
+    
+    var totalOrder: Double {
+        return Double(checkAmount) ?? 0
+    }
+    
+    var amountOfPeople: Double {
+        return Double(peopleAmount)
+    }
     
     var formatterCurrency: NumberFormatter {
         let formatter = NumberFormatter()
@@ -23,18 +34,15 @@ class SplitViewModel: ObservableObject {
     }
     
     var totalPerPerson: String {
-        let totalCheck = Double(checkAmount) ?? 0
-        let tipPercent = Double(tipPercenteges[tipSelection])
-        let amountOfPeople = Double(peopleAmount) ?? 1
-        
-        let tipPerPerson = totalCheck / 100 * tipPercent
-        let totalOrder = totalCheck + tipPerPerson
+        let tipPerPerson = totalOrder / 100 * currentTipCount
+        let totalOrder = totalOrder + tipPerPerson
         let perPersonAmount = totalOrder / amountOfPeople
     
         let priceString = formatterCurrency.string(from: NSNumber(value: perPersonAmount))!
         
         return priceString
     }
+    
     
     var tipPerCheck: String {
         let totalCheck = Double(checkAmount) ?? 0
@@ -44,6 +52,44 @@ class SplitViewModel: ObservableObject {
         let result = formatterCurrency.string(from: NSNumber(value: tipPerPerson))!
         
         return result
+    }
+    
+    
+    func incrementPeopleAmount() {
+        peopleAmount += 1
+    }
+    
+    func decrementPeopleAmount() {
+        peopleAmount -= 1
+        if peopleAmount < 1 {
+           peopleAmount = 1
+        }
+    }
+}
+
+
+struct StepperView: View {
+    @State private var value = 0
+    let colors: [Color] = [.orange, .red, .gray, .blue,
+                           .green, .purple, .pink]
+
+    func incrementStep() {
+        value += 1
+        if value >= colors.count { value = 0 }
+    }
+
+    func decrementStep() {
+        value -= 1
+        if value < 0 { value = colors.count - 1 }
+    }
+
+    var body: some View {
+        Stepper(onIncrement: incrementStep,
+            onDecrement: decrementStep) {
+            Text("Value: \(value) Color: \(colors[value].description)")
+        }
+        .padding(5)
+        .background(colors[value])
     }
 }
 
@@ -57,7 +103,7 @@ struct ContentView: View {
                 
                 Section(header: Text("Total")) {
                     HStack {
-                        Text("Per \(vm.peopleAmount) person:")
+                        Text("Payment for \(vm.peopleAmount) person:")
                         Spacer()
                         Text("\(vm.totalPerPerson)")
                     }
@@ -70,32 +116,19 @@ struct ContentView: View {
                 
                 
                 Section {
-                    HStack {
+                    
                         ZStack(alignment: Alignment(horizontal: .leading, vertical: .center)) {
                             TextField("Check", text: $vm.checkAmount)
                                 .keyboardType(.decimalPad)
                                 .padding(.leading)
                             Text("$")
                         }
-                        
-                        ZStack(alignment: Alignment(horizontal: .leading, vertical: .center)) {
-                            TextField("People", text: $vm.peopleAmount)
-                                .keyboardType(.numberPad)
-                                .padding(.leading, 28)
-                            Image(systemName: "person.2.fill")
-//                                .font(.title)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 20, height: 20)
-                        }
-                    }
                     
-                    Stepper("People: \(vm.peopleAmountInt)") {
-                        self.vm.peopleAmountInt += 1
+                    
+                    Stepper("For \(vm.peopleAmount) person") {
+                        vm.incrementPeopleAmount()
                     } onDecrement: {
-                        if self.vm.peopleAmountInt > 1 {
-                            self.vm.peopleAmountInt -= 1
-                        }
+                        vm.decrementPeopleAmount()
                     }
 
                     VStack(alignment: .leading) {
@@ -118,6 +151,12 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        
+            ContentView()
+                .previewDevice(PreviewDevice(rawValue: "iPhone SE (2nd generation)"))
+            
+            ContentView()
+                .previewDevice(PreviewDevice(rawValue: "iPhone 11 Pro"))
+        
     }
 }
