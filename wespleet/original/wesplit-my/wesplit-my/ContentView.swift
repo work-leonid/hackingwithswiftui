@@ -9,46 +9,74 @@ import SwiftUI
 
 class SplitViewModel: ObservableObject {
     
+    // MARK: - Published
     @Published var checkAmount = ""
     @Published var tipSelection = 2
     @Published var peopleAmount = 1
     
+    // MARK: - Local
     var tipPercenteges = [10, 15, 20, 0]
     
-    var currentTipCount: Double {
+    // MARK: - Converted
+    var currentTipAmount: Double {
         return Double(tipPercenteges[tipSelection])
     }
     
-    var totalOrder: Double {
+    var checkAmountConverted: Double {
         return Double(checkAmount) ?? 0
     }
     
-    var amountOfPeople: Double {
+    var peopleAmountConverted: Double {
         return Double(peopleAmount)
     }
     
+    // MARK: - Formatter
     var formatterCurrency: NumberFormatter {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
         return formatter
     }
     
+//    MARK: - Total amounts
     var totalPerPerson: String {
-        let tipPerPerson = totalOrder / 100 * currentTipCount
-        let totalOrder = totalOrder + tipPerPerson
-        let perPersonAmount = totalOrder / amountOfPeople
+        let tipPerPerson = checkAmountConverted / 100 * currentTipAmount
+        let totalOrder = checkAmountConverted + tipPerPerson
+        let perPersonAmount = totalOrder / peopleAmountConverted
     
-        let priceString = formatterCurrency.string(from: NSNumber(value: perPersonAmount))!
+        let result = formatterCurrency.string(from: NSNumber(value: perPersonAmount))!
         
-        return priceString
+        return result
     }
-    
     
     var tipPerCheck: String {
         let totalCheck = Double(checkAmount) ?? 0
         let tipPercent = Double(tipPercenteges[tipSelection])
         
         let tipPerPerson = totalCheck / 100 * tipPercent
+        let result = formatterCurrency.string(from: NSNumber(value: tipPerPerson))!
+        
+        return result
+    }
+    
+    var tipPerPerson: String {
+//        let totalCheck = Double(checkAmount) ?? 0
+//        let tipPercent = Double(tipPercenteges[tipSelection])
+        
+//        let tipPerPerson = totalCheck / 100 * tipPercent
+        var perPerson: Double = 0
+        
+        
+        let tipInPercent = checkAmountConverted / 100 * currentTipAmount
+        let tipPerPerson = tipInPercent / peopleAmountConverted
+        
+//        if checkAmountConverted == 0 {
+//            perPerson = 0
+//        } else {
+//            perPerson = currentTipAmount / 100 / peopleAmountConverted
+//        }
+        
+        
+        
         let result = formatterCurrency.string(from: NSNumber(value: tipPerPerson))!
         
         return result
@@ -67,32 +95,6 @@ class SplitViewModel: ObservableObject {
     }
 }
 
-
-struct StepperView: View {
-    @State private var value = 0
-    let colors: [Color] = [.orange, .red, .gray, .blue,
-                           .green, .purple, .pink]
-
-    func incrementStep() {
-        value += 1
-        if value >= colors.count { value = 0 }
-    }
-
-    func decrementStep() {
-        value -= 1
-        if value < 0 { value = colors.count - 1 }
-    }
-
-    var body: some View {
-        Stepper(onIncrement: incrementStep,
-            onDecrement: decrementStep) {
-            Text("Value: \(value) Color: \(colors[value].description)")
-        }
-        .padding(5)
-        .background(colors[value])
-    }
-}
-
 struct ContentView: View {
     
     @ObservedObject var vm = SplitViewModel()
@@ -103,7 +105,7 @@ struct ContentView: View {
                 
                 Section(header: Text("Total")) {
                     HStack {
-                        Text("Payment for \(vm.peopleAmount) person:")
+                        Text("Each person pay:")
                         Spacer()
                         Text("\(vm.totalPerPerson)")
                     }
@@ -111,6 +113,11 @@ struct ContentView: View {
                         Text("Tip per check:")
                         Spacer()
                         Text("\(vm.tipPerCheck)")
+                    }
+                    HStack {
+                        Text("Tip per person:")
+                        Spacer()
+                        Text("\(vm.tipPerPerson)")
                     }
                 }
                 
@@ -123,7 +130,6 @@ struct ContentView: View {
                                 .padding(.leading)
                             Text("$")
                         }
-                    
                     
                     Stepper("For \(vm.peopleAmount) person") {
                         vm.incrementPeopleAmount()
