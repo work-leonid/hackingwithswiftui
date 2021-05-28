@@ -7,85 +7,17 @@
 
 import SwiftUI
 
-class SplitViewModel: ObservableObject {
-    
-    // MARK: - Published
-    @Published var checkAmount = ""
-    @Published var tipSelection = 2
-    @Published var peopleAmount = 1
-    
-    // MARK: - Local
-    var tipPercenteges = [10, 15, 20, 0]
-    
-    // MARK: - Converted properties for calculations
-    var currentTipAmount: Double {
-        return Double(tipPercenteges[tipSelection])
-    }
-    
-    var checkAmountDouble: Double {
-        return Double(checkAmount) ?? 0
-    }
-    
-    var peopleAmountDouble: Double {
-        return Double(peopleAmount)
-    }
-    
-    // MARK: - Currency formatter
-    var formatterCurrency: NumberFormatter {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        return formatter
-    }
-    
-    //    MARK: - Total amounts
-    var tipAmountForCheck: Double {
-        return checkAmountDouble / 100 * currentTipAmount
-    }
 
-    var totalPerPerson: String {
-        let totalOrder = checkAmountDouble + tipAmountForCheck
-        let perPersonAmount = totalOrder / peopleAmountDouble
-        let result = formatterCurrency.string(from: NSNumber(value: perPersonAmount))!
-        
-        return result
-    }
-    
-    
-    var tipPercentFormatted: String {
-        let result = formatterCurrency.string(from: NSNumber(value: tipAmountForCheck))!
-       
-        return result
-    }
-    
-    var tipPerPerson: String {
-        let tipPerPerson = tipAmountForCheck / peopleAmountDouble
-        let result = formatterCurrency.string(from: NSNumber(value: tipPerPerson))!
-
-        return result
-    }
-    
-//    MARK: - Functions
-    func incrementPeopleAmount() {
-        peopleAmount += 1
-    }
-    
-    func decrementPeopleAmount() {
-        peopleAmount -= 1
-        if peopleAmount < 1 {
-            peopleAmount = 1
-        }
-    }
-}
 
 struct ContentView: View {
     
-    @ObservedObject var vm = SplitViewModel()
+    @ObservedObject var vm = AccountingViewModel()
     
     var body: some View {
         NavigationView {
             Form {
                 
-                if vm.checkAmountDouble > 0 {
+                if vm.checkAmount.toDouble() > 0 {
                     Section {
                         HStack {
                             Text("Each person pay")
@@ -99,7 +31,7 @@ struct ContentView: View {
                                 Text("Per check")
                                     .font(.callout)
                                     .foregroundColor(.gray)
-                                Text("\(vm.tipPercentFormatted)")
+                                Text("\(vm.tipAmountForCheck.formatAsCurrency())")
                             }
                             Spacer()
                             VStack(alignment: .leading, spacing: 5) {
