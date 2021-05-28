@@ -28,9 +28,9 @@ class FlagGameManager: ObservableObject {
         if item == correctAnswer {
             userScore += 1
             answerTitle = "Correct"
-            newGame()
+//            newGame()
         } else {
-            newGame()
+//            newGame()
             answerTitle = "Wrong"
         }
     }

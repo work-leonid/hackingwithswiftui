@@ -78,6 +78,16 @@ struct ContentView: View {
                         })
                         .buttonStyle(FlagButton())
                     }
+                
+                    Button(action: {
+                        vm.resetGame()
+                    }, label: {
+                        Text("Next Flag")
+                            .padding()
+                            .padding(.horizontal)
+                            .background(Color.white)
+                            .clipShape(Capsule())
+                    })
                 }
                 
                 Spacer()
