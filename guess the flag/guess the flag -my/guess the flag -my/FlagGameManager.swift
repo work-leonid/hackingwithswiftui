@@ -8,6 +8,7 @@
 import Foundation
 
 class FlagGameManager: ObservableObject {
+    
     private var countries = ["Estonia", "France", "Germany", "Ireland", "Italy", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"].shuffled()
     
     @Published var correctAnswer = Int.random(in: 0...2)

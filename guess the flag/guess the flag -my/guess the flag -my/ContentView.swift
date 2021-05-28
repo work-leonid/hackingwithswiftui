@@ -7,6 +7,18 @@
 
 import SwiftUI
 
+struct FlagButton: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+//            .overlay(configuration.isPressed ? Color.white : Color.clear)
+            .clipShape(RoundedRectangle(cornerRadius: 16))
+            .shadow(color: Color.black.opacity(0.3), radius: configuration.isPressed ? 2 : 10, x: 0.0, y: configuration.isPressed ? 0 : 10)
+            .opacity(configuration.isPressed ? 0.9 : 1)
+            
+        
+    }
+}
+
 struct ContentView: View {
     
     @ObservedObject var vm = FlagGameManager()
@@ -30,7 +42,7 @@ struct ContentView: View {
                         Text("Score")
                         HStack {
                             Button(action: {
-                                vm.resetGame()
+//                                vm.resetGame()
                                 vm.showingSheet = true
                             }, label: {
                                 HStack {
@@ -46,7 +58,9 @@ struct ContentView: View {
                                 ActionSheet(
                                     title: Text("title"),
                                     message: Text("title"),
-                                    buttons: [.default(Text("ok")), .cancel()])
+                                    buttons: [.destructive(Text("Reset game"), action: {
+                                        vm.resetGame()
+                                    }), .cancel()])
                             }
                         }
                     }
@@ -55,13 +69,15 @@ struct ContentView: View {
 
                 Spacer()
                 
-                VStack {
+                VStack(spacing: 30) {
                     ForEach(0..<3) { item in
                         Button(action: {
                             vm.answer(item)
                         }, label: {
                             Image(vm.allCountries[item])
                         })
+                        .buttonStyle(FlagButton())
+                        
                     }
                 }
                 
