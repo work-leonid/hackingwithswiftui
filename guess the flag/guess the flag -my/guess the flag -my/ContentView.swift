@@ -11,10 +11,11 @@ struct FlagButton: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .aspectRatio(contentMode: .fit)
-//            .overlay(configuration.isPressed ? Color.white : Color.clear)
             .clipShape(RoundedRectangle(cornerRadius: 8))
             .shadow(color: Color.black.opacity(0.3), radius: configuration.isPressed ? 2 : 10, x: 0.0, y: configuration.isPressed ? 0 : 10)
             .opacity(configuration.isPressed ? 0.9 : 1)
+            .scaleEffect(configuration.isPressed ? 0.9 : 1)
+            .animation(Animation.easeInOut.speed(1.5))
     }
 }
 
@@ -76,7 +77,6 @@ struct ContentView: View {
                             Image(vm.allCountries[item])
                         })
                         .buttonStyle(FlagButton())
-                        
                     }
                 }
                 
