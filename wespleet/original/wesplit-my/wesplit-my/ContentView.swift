@@ -16,7 +16,7 @@ struct ContentView: View {
     var totalView: some View {
         Section {
             HStack {
-                Text("totalPerPersonTitle")
+                Text("totalCheckTitle")
                 Spacer()
                 Text("\(vm.totalPerPerson)")
                     .font(.title)
@@ -24,14 +24,14 @@ struct ContentView: View {
             }
             HStack {
                 VStack(alignment: .leading, spacing: 5) {
-                    Text("totalPerCheckTitle")
+                    Text("totalTipsForAllTitle")
                         .font(.callout)
                         .foregroundColor(.gray)
                     Text("\(vm.tipAmountForCheck.formatAsCurrency())")
                 }
                 Spacer()
                 VStack(alignment: .leading, spacing: 5) {
-                    Text("totalPerPersonTitle")
+                    Text("totalTipPerPersonTitle")
                         .font(.callout)
                         .foregroundColor(.gray)
                     Text("\(vm.tipPerPerson)")

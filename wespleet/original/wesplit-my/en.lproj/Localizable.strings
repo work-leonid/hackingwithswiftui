@@ -6,9 +6,14 @@
   
 */
 
-"textFieldPlaceholder" = "Check amount";
-"totalPerPersonTitle" = "Each person pay";
-"totalPerCheckTitle" = "Tips for all";
-"totalPerPersonTitle" = "Tips per person";
+//total order
+"totalCheckTitle" = "Each person pay";
+"totalTipsForAllTitle" = "Tips";
+"totalTipPerPersonTitle" = "Tips per person";
+
+//form with numbers
 "peopleAmount %lld" = "for %lld";
 "tipPersentagesTitle" = "How many tips?";
+
+//textfield
+"textFieldPlaceholder" = "Check amount";

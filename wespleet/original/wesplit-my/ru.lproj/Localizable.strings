@@ -6,9 +6,14 @@
   
 */
 
-"textFieldPlaceholder" = "Чек";
-"totalPerPersonTitle" = "Каждый платит";
-"totalPerCheckTitle" = "Чаевые на всех";
-"totalPerPersonTitle" = "Чаевые на каждого";
+//total order
+"totalCheckTitle" = "Каждый платит";
+"totalTipsForAllTitle" = "Всего чаевых";
+"totalTipPerPersonTitle" = "Чаевые на человека";
+
+//form with numbers
 "peopleAmount %lld" = "за %lld";
 "tipPersentagesTitle" = "Сколько чаевых оставить?";
+
+//textfield
+"textFieldPlaceholder" = "Чек";
