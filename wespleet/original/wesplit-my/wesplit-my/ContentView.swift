@@ -17,7 +17,7 @@ struct ContentView: View {
         NavigationView {
             Form {
                 
-                if vm.checkAmount.toDouble() > 0 {
+                if vm.isEnabled {
                     Section {
                         HStack {
                             Text("Each person pay")

@@ -22,6 +22,13 @@ class AccountingViewModel: ObservableObject {
         return Double(tipPercenteges[tipSelection])
     }
     
+    var isEnabled: Bool {
+        if checkAmount.isEmpty {
+            return false
+        }
+        return true
+    }
+    
     //    MARK: - Total amounts
     var tipAmountForCheck: Double {
         return checkAmount.toDouble() / 100 * currentTipAmount
