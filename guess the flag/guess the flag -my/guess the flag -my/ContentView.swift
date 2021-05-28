@@ -32,7 +32,7 @@ struct ContentView: View {
             VStack {
                 HStack {
                     VStack(alignment: .leading) {
-                        Text("Guess the flag")
+                        Text("Guess the flag of")
                         Text("\(vm.targetCountry)")
                             .font(.largeTitle)
                             .fontWeight(.black)
