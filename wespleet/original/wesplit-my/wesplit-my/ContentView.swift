@@ -13,74 +13,75 @@ struct ContentView: View {
     
     @ObservedObject var vm = AccountingViewModel()
     
+    var totalView: some View {
+        Section {
+            HStack {
+                Text("Each person pay")
+                Spacer()
+                Text("\(vm.totalPerPerson)")
+                    .font(.title)
+                    .padding(.vertical)
+            }
+            HStack {
+                VStack(alignment: .leading, spacing: 5) {
+                    Text("Per check")
+                        .font(.callout)
+                        .foregroundColor(.gray)
+                    Text("\(vm.tipAmountForCheck.formatAsCurrency())")
+                }
+                Spacer()
+                VStack(alignment: .leading, spacing: 5) {
+                    Text("Per person")
+                        .font(.callout)
+                        .foregroundColor(.gray)
+                    Text("\(vm.tipPerPerson)")
+                }
+                
+            }
+            .padding(.vertical)
+        }
+    }
+    
+    var formView: some View {
+        Section {
+            HStack {
+                ZStack(alignment: Alignment(horizontal: .leading, vertical: .center)) {
+                    TextField("Check amount", text: $vm.checkAmount)
+                        .keyboardType(.decimalPad)
+                        .padding(.leading)
+                    Text("$")
+                }
+                
+                Stepper(
+                    onIncrement: { vm.incrementPeopleAmount() },
+                    onDecrement: { vm.decrementPeopleAmount() },
+                    label: {
+                        Text("for \(vm.peopleAmount)")
+                            .font(.callout)
+                    })
+                
+            }
+            
+            VStack(alignment: .leading) {
+                Text("Tip amount")
+                    .font(.callout)
+                Picker("Tip count", selection: $vm.tipSelection) {
+                    ForEach(0..<vm.tipPercenteges.count) { index in
+                        Text("\(vm.tipPercenteges[index])%")
+                    }
+                }
+                .pickerStyle(SegmentedPickerStyle())
+            }
+        }
+    }
+    
     var body: some View {
         NavigationView {
             Form {
-                
                 if vm.isEnabled {
-                    Section {
-                        HStack {
-                            Text("Each person pay")
-                            Spacer()
-                            Text("\(vm.totalPerPerson)")
-                                .font(.title)
-                                .padding(.vertical)
-                        }
-                        HStack {
-                            VStack(alignment: .leading, spacing: 5) {
-                                Text("Per check")
-                                    .font(.callout)
-                                    .foregroundColor(.gray)
-                                Text("\(vm.tipAmountForCheck.formatAsCurrency())")
-                            }
-                            Spacer()
-                            VStack(alignment: .leading, spacing: 5) {
-                                Text("Per person")
-                                    .font(.callout)
-                                    .foregroundColor(.gray)
-                                Text("\(vm.tipPerPerson)")
-                            }
-                            
-                        }
-                        .padding(.vertical)
-                    }
+                    totalView
                 }
-                
-                
-                
-                Section {
-                    
-                    HStack {
-                        ZStack(alignment: Alignment(horizontal: .leading, vertical: .center)) {
-                            TextField("Check amount", text: $vm.checkAmount)
-                                .keyboardType(.decimalPad)
-                                .padding(.leading)
-                            Text("$")
-                        }
-                        
-                        Stepper(
-                            onIncrement: { vm.incrementPeopleAmount() },
-                            onDecrement: { vm.decrementPeopleAmount() },
-                            label: {
-                                Text("for \(vm.peopleAmount)")
-                                    .font(.callout)
-                            })
-                        
-                    }
-                    
-                    VStack(alignment: .leading) {
-                        Text("Tip amount")
-                            .font(.callout)
-                        Picker("Tip count", selection: $vm.tipSelection) {
-                            ForEach(0..<vm.tipPercenteges.count) { index in
-                                Text("\(vm.tipPercenteges[index])%")
-                            }
-                        }
-                        .pickerStyle(SegmentedPickerStyle())
-                    }
-                }
-                
-                
+                formView
             }
             .navigationTitle("WeSplit")
         }
