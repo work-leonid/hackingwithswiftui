@@ -1,0 +1,14 @@
+/* 
+  Localizable.strings
+  wesplit-my
+
+  Created by Leonid Nazarov on 28.05.2021.
+  
+*/
+
+"textFieldPlaceholder" = "Чек";
+"totalPerPersonTitle" = "Каждый платит";
+"totalPerCheckTitle" = "Чаевые на всех";
+"totalPerPersonTitle" = "Чаевые на каждого";
+"peopleAmount %lld" = "за %lld";
+"tipPersentagesTitle" = "Сколько чаевых оставить?";

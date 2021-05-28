@@ -1,0 +1,14 @@
+/* 
+  Localizable.strings
+  wesplit-my
+
+  Created by Leonid Nazarov on 28.05.2021.
+  
+*/
+
+"textFieldPlaceholder" = "Check amount";
+"totalPerPersonTitle" = "Each person pay";
+"totalPerCheckTitle" = "Tips for all";
+"totalPerPersonTitle" = "Tips per person";
+"peopleAmount %lld" = "for %lld";
+"tipPersentagesTitle" = "How many tips?";

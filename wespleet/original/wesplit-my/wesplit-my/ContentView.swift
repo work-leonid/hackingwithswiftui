@@ -16,7 +16,7 @@ struct ContentView: View {
     var totalView: some View {
         Section {
             HStack {
-                Text("Each person pay")
+                Text("totalPerPersonTitle")
                 Spacer()
                 Text("\(vm.totalPerPerson)")
                     .font(.title)
@@ -24,14 +24,14 @@ struct ContentView: View {
             }
             HStack {
                 VStack(alignment: .leading, spacing: 5) {
-                    Text("Per check")
+                    Text("totalPerCheckTitle")
                         .font(.callout)
                         .foregroundColor(.gray)
                     Text("\(vm.tipAmountForCheck.formatAsCurrency())")
                 }
                 Spacer()
                 VStack(alignment: .leading, spacing: 5) {
-                    Text("Per person")
+                    Text("totalPerPersonTitle")
                         .font(.callout)
                         .foregroundColor(.gray)
                     Text("\(vm.tipPerPerson)")
@@ -46,7 +46,7 @@ struct ContentView: View {
         Section {
             HStack {
                 ZStack(alignment: Alignment(horizontal: .leading, vertical: .center)) {
-                    TextField("Check amount", text: $vm.checkAmount)
+                    TextField("textFieldPlaceholder", text: $vm.checkAmount)
                         .keyboardType(.decimalPad)
                         .padding(.leading)
                     Text("$")
@@ -56,14 +56,13 @@ struct ContentView: View {
                     onIncrement: { vm.incrementPeopleAmount() },
                     onDecrement: { vm.decrementPeopleAmount() },
                     label: {
-                        Text("for \(vm.peopleAmount)")
+                        Text("peopleAmount \(vm.peopleAmount)")
                             .font(.callout)
                     })
-                
             }
             
             VStack(alignment: .leading) {
-                Text("Tip amount")
+                Text("tipPersentagesTitle")
                     .font(.callout)
                 Picker("Tip count", selection: $vm.tipSelection) {
                     ForEach(0..<vm.tipPercenteges.count) { index in
@@ -92,9 +91,11 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         
         ContentView()
+            .environment(\.locale, .init(identifier: "ru"))
             .previewDevice(PreviewDevice(rawValue: "iPhone SE (2nd generation)"))
         
         ContentView()
+            .environment(\.locale, .init(identifier: "ru"))
             .previewDevice(PreviewDevice(rawValue: "iPhone 11 Pro"))
         
     }
